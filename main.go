@@ -16,7 +16,7 @@ func main() {
 	fmt.Scan(&input)
 
 	if input == 1 {
-		err := db.AutoMigrate(&a_rep.Articles{}, &c_rep.Comments{}, &u_rep.Users{})
+		err := db.AutoMigrate(&u_rep.Users{}, &c_rep.Comments{}, &a_rep.Articles{})
 		if err != nil {
 			fmt.Println(err)
 		}
