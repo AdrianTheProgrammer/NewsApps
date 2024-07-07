@@ -1,24 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"newsapps/configs"
-	a_rep "newsapps/internal/features/articles/repositories"
-	c_rep "newsapps/internal/features/comments/repositories"
-	u_rep "newsapps/internal/features/users/repositories"
+	"newsapps/internal/factory"
+
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	db := configs.ConnectDB()
+	e := echo.New()
 
-	var input int
-	fmt.Print("Masukkan '1' untuk Migrasi Database: ")
-	fmt.Scan(&input)
+	factory.InitFactory(e)
 
-	if input == 1 {
-		err := db.AutoMigrate(&u_rep.Users{}, &c_rep.Comments{}, &a_rep.Articles{})
-		if err != nil {
-			fmt.Println(err)
-		}
-	}
+	e.Logger.Error(e.Start(":5000"))
 }
