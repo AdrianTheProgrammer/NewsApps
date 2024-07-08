@@ -28,8 +28,8 @@ func InitFactory(e *echo.Echo) {
 	us := u_srv.NewUsersSrv(uq)
 	uh := u_hnd.NewUsersHand(us)
 
-	aq := a_rep.NewArticlesQry(db)
-	as := a_srv.NewArticlesSrv(aq)
+	aq := a_rep.NewArticlesQueries(db)
+	as := a_srv.NewArticlesServices(aq)
 	ah := a_hnd.NewArticlesHand(as)
 
 	cq := c_rep.NewCommentsQry(db)
@@ -49,7 +49,7 @@ func MigrateDB(db *gorm.DB) {
 	fmt.Scan(&input)
 
 	if input == 1 {
-		err := db.AutoMigrate(&u_rep.Users{}, &c_rep.Comments{}, &a_rep.Articles{})
+		err := db.AutoMigrate(&u_rep.Users{}, &c_rep.Comments{}, &a_rep.Article{})
 		if err != nil {
 			fmt.Println(err)
 		}

@@ -6,11 +6,11 @@ import (
 	"gorm.io/gorm"
 )
 
-type Articles struct {
+type Article struct {
 	gorm.Model
 	UserID      uint
 	Title       string
 	Content     string
 	ImageSource string
-	Comments    c_rep.Comments `gorm:"foreignKey:ArticleID"`
+	Comments    []c_rep.Comments `gorm:"foreignKey:ArticleID"`
 }

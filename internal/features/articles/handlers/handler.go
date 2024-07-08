@@ -7,31 +7,33 @@ import (
 )
 
 type ArticlesHand struct {
-	srv articles.AServices
+	srv articles.Services
 }
 
-func NewArticlesHand(s articles.AServices) articles.AHandlers {
+func NewArticlesHand(s articles.Services) articles.Handlers {
 	return &ArticlesHand{
 		srv: s,
 	}
 }
 
-func (ah *ArticlesHand) ReadAllArticles(c echo.Context) error {
+func (ah *ArticlesHand) CreateArticle() echo.HandlerFunc {
+	// Placeholder
+	return nil
+}
+func (ah *ArticlesHand) DeleteArticle() echo.HandlerFunc {
+	// Placeholder
+	return nil
+}
+func (ah *ArticlesHand) ReadArticle() echo.HandlerFunc {
+	// Placeholder
+	return nil
+}
+func (ah *ArticlesHand) ShowAllArticles() echo.HandlerFunc {
 	// Placeholder
 	return nil
 }
 
-func (ah *ArticlesHand) CreateArticle(c echo.Context) error {
-	// Placeholder
-	return nil
-}
-
-func (ah *ArticlesHand) UpdateArticle(c echo.Context) error {
-	// Placeholder
-	return nil
-}
-
-func (ah *ArticlesHand) DeleteArticle(c echo.Context) error {
+func (ah *ArticlesHand) UpdateArticle() echo.HandlerFunc {
 	// Placeholder
 	return nil
 }

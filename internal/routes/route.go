@@ -2,16 +2,16 @@ package routes
 
 import (
 	"newsapps/configs"
-	"newsapps/internal/features/articles"
-	"newsapps/internal/features/comments"
-	"newsapps/internal/features/users"
+	articles "newsapps/internal/features/articles"
+	comments "newsapps/internal/features/comments"
+	users "newsapps/internal/features/users"
 
 	"github.com/golang-jwt/jwt"
 	echojwt "github.com/labstack/echo-jwt"
 	"github.com/labstack/echo/v4"
 )
 
-func InitRoute(e *echo.Echo, uh users.UHandlers, ah articles.AHandlers, ch comments.CHandlers) {
+func InitRoute(e *echo.Echo, uh users.UHandlers, ah articles.Handlers, ch comments.CHandlers) {
 	e.POST("/login", uh.Login)
 	e.POST("/register", uh.CreateUser)
 
@@ -33,7 +33,7 @@ func UsersRoute(e *echo.Echo, uh users.UHandlers) {
 	u.POST("/deactivate/:id", uh.DeleteUser)
 }
 
-func ArticlesRoute(e *echo.Echo, ah articles.AHandlers) {
+func ArticlesRoute(e *echo.Echo, ah articles.Handlers) {
 	a := e.Group("/articles")
 	a.Use(echojwt.WithConfig(
 		echojwt.Config{
@@ -41,10 +41,11 @@ func ArticlesRoute(e *echo.Echo, ah articles.AHandlers) {
 			SigningMethod: jwt.SigningMethodHS256.Name,
 		},
 	))
-	a.GET("", ah.ReadAllArticles)
-	a.POST("/post", ah.CreateArticle)
-	a.PUT("/edit/:id", ah.UpdateArticle)
-	a.DELETE("/delete/:id", ah.DeleteArticle)
+	a.GET("", ah.ShowAllArticles())
+	a.POST("/post", ah.CreateArticle())
+	a.GET("/:id", ah.ReadArticle())
+	a.PUT("/:id/edit", ah.UpdateArticle())
+	a.DELETE("/:id/delete", ah.DeleteArticle())
 }
 
 func CommentsRoute(e *echo.Echo, ch comments.CHandlers) {
