@@ -15,8 +15,8 @@ type Users struct {
 	Fullname string
 	Email    string
 	Phone    string
-	Articles a_rep.Articles `gorm:"foreignKey:UserID"`
-	Comments c_rep.Comments `gorm:"foreignKey:UserID"`
+	Articles []a_rep.Article  `gorm:"foreignKey:UserID"`
+	Comments []c_rep.Comments `gorm:"foreignKey:UserID"`
 }
 
 func ToUsersData(input users.Users) Users {

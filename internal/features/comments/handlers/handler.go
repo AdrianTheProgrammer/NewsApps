@@ -7,26 +7,26 @@ import (
 )
 
 type CommentsHand struct {
-	srv comments.CServices
+	srv comments.Services
 }
 
-func NewCommentsHand(s comments.CServices) comments.CHandlers {
+func NewCommentsHand(s comments.Services) comments.Handlers {
 	return &CommentsHand{
 		srv: s,
 	}
 }
 
-func (ch *CommentsHand) CreateComment(c echo.Context) error {
+func (ch *CommentsHand) CreateComment() echo.HandlerFunc {
 	// Placeholder
 	return nil
 }
 
-func (ch *CommentsHand) UpdateComment(c echo.Context) error {
+func (ch *CommentsHand) UpdateComment() echo.HandlerFunc {
 	// Placeholder
 	return nil
 }
 
-func (ch *CommentsHand) DeleteComment(c echo.Context) error {
+func (ch *CommentsHand) DeleteComment() echo.HandlerFunc {
 	// Placeholder
 	return nil
 }

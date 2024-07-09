@@ -9,14 +9,14 @@ type Comments struct {
 	Content   string
 }
 
-type CHandlers interface {
-	CreateComment(echo.Context) error
-	UpdateComment(echo.Context) error
-	DeleteComment(echo.Context) error
+type Handlers interface {
+	CreateComment() echo.HandlerFunc
+	UpdateComment() echo.HandlerFunc
+	DeleteComment() echo.HandlerFunc
 }
 
-type CServices interface {
+type Services interface {
 }
 
-type CQuery interface {
+type Query interface {
 }

@@ -3,10 +3,10 @@ package services
 import "newsapps/internal/features/comments"
 
 type CommentsSrv struct {
-	qry comments.CQuery
+	qry comments.Query
 }
 
-func NewCommentsSrv(q comments.CQuery) comments.CServices {
+func NewCommentsSrv(q comments.Query) comments.Services {
 	return &CommentsSrv{
 		qry: q,
 	}
