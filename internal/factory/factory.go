@@ -13,6 +13,7 @@ import (
 	u_rep "newsapps/internal/features/users/repositories"
 	u_srv "newsapps/internal/features/users/services"
 	"newsapps/internal/routes"
+	"newsapps/internal/utils"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -24,9 +25,12 @@ func InitFactory(e *echo.Echo) {
 
 	MigrateDB(db)
 
+	pu := utils.NewPassUtil()
+	tu := utils.NewTokenUtil()
+
 	uq := u_rep.NewUsersQry(db)
-	us := u_srv.NewUsersSrv(uq)
-	uh := u_hnd.NewUsersHand(us)
+	us := u_srv.NewUsersSrv(uq, pu, tu)
+	uh := u_hnd.NewUsersHand(us, tu)
 
 	aq := a_rep.NewArticlesQry(db)
 	as := a_srv.NewArticlesSrv(aq)
@@ -44,11 +48,11 @@ func InitFactory(e *echo.Echo) {
 }
 
 func MigrateDB(db *gorm.DB) {
-	var input int
+	var menu int
 	fmt.Print("Masukkan '1' untuk Migrasi Database: ")
-	fmt.Scan(&input)
+	fmt.Scanln(&menu)
 
-	if input == 1 {
+	if menu == 1 {
 		err := db.AutoMigrate(&u_rep.Users{}, &c_rep.Comments{}, &a_rep.Articles{})
 		if err != nil {
 			fmt.Println(err)

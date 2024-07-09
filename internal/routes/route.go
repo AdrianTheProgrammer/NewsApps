@@ -7,7 +7,7 @@ import (
 	"newsapps/internal/features/users"
 
 	"github.com/golang-jwt/jwt"
-	echojwt "github.com/labstack/echo-jwt"
+	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 )
 
@@ -22,25 +22,15 @@ func InitRoute(e *echo.Echo, uh users.UHandlers, ah articles.AHandlers, ch comme
 
 func UsersRoute(e *echo.Echo, uh users.UHandlers) {
 	u := e.Group("/users")
-	u.Use(echojwt.WithConfig(
-		echojwt.Config{
-			SigningKey:    []byte(configs.ImportPasskey()),
-			SigningMethod: jwt.SigningMethodHS256.Name,
-		},
-	))
-	u.GET("/settings/:id", uh.ReadUser)
-	u.PUT("/edit/:id", uh.UpdateUser)
-	u.POST("/deactivate/:id", uh.DeleteUser)
+	u.Use(JWTConfig())
+	u.GET("/settings", uh.ReadUser)
+	u.PUT("/edit", uh.UpdateUser)
+	u.DELETE("/deactivate", uh.DeleteUser)
 }
 
 func ArticlesRoute(e *echo.Echo, ah articles.AHandlers) {
 	a := e.Group("/articles")
-	a.Use(echojwt.WithConfig(
-		echojwt.Config{
-			SigningKey:    []byte(configs.ImportPasskey()),
-			SigningMethod: jwt.SigningMethodHS256.Name,
-		},
-	))
+	a.Use(JWTConfig())
 	a.GET("", ah.ReadAllArticles)
 	a.POST("/post", ah.CreateArticle)
 	a.PUT("/edit/:id", ah.UpdateArticle)
@@ -49,14 +39,18 @@ func ArticlesRoute(e *echo.Echo, ah articles.AHandlers) {
 
 func CommentsRoute(e *echo.Echo, ch comments.CHandlers) {
 	c := e.Group("/comments")
-	c.Use(echojwt.WithConfig(
-		echojwt.Config{
-			SigningKey:    []byte(configs.ImportPasskey()),
-			SigningMethod: jwt.SigningMethodHS256.Name,
-		},
-	))
+	c.Use(JWTConfig())
 	c.POST("/post", ch.CreateComment)
 	// Read Comment tidak ada karena ide saya readnya sekalian sama read article (Read 1 Article, ke-read semua commentnya)
 	c.PUT("/edit/:id", ch.UpdateComment)
 	c.DELETE("/delete/:id", ch.DeleteComment)
+}
+
+func JWTConfig() echo.MiddlewareFunc {
+	return echojwt.WithConfig(
+		echojwt.Config{
+			SigningKey:    []byte(configs.ImportPasskey()),
+			SigningMethod: jwt.SigningMethodHS256.Name,
+		},
+	)
 }
