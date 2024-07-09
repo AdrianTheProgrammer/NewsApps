@@ -25,25 +25,15 @@ func InitRoute(e *echo.Echo, uh users.UHandlers, ah articles.Handlers, ch commen
 
 func UsersRoute(e *echo.Echo, uh users.UHandlers) {
 	u := e.Group("/users")
-	u.Use(echojwt.WithConfig(
-		echojwt.Config{
-			SigningKey:    []byte(configs.ImportPasskey()),
-			SigningMethod: jwt.SigningMethodHS256.Name,
-		},
-	))
-	u.GET("/settings/:id", uh.ReadUser)
-	u.PUT("/edit/:id", uh.UpdateUser)
-	u.POST("/deactivate/:id", uh.DeleteUser)
+	u.Use(JWTConfig())
+	u.GET("/settings", uh.ReadUser)
+	u.PUT("/edit", uh.UpdateUser)
+	u.DELETE("/deactivate", uh.DeleteUser)
 }
 
 func ArticlesRoute(e *echo.Echo, ah articles.Handlers, ch comments.Handlers) {
 	a := e.Group("/articles")
-	a.Use(echojwt.WithConfig(
-		echojwt.Config{
-			SigningKey:    []byte(configs.ImportPasskey()),
-			SigningMethod: jwt.SigningMethodHS256.Name,
-		},
-	))
+	a.Use(JWTConfig())
 	a.POST("/post", ah.CreateArticle())
 	a.PUT("/:id/edit", ah.UpdateArticle())
 	a.DELETE("/:id/delete", ah.DeleteArticle())
@@ -66,3 +56,12 @@ func ArticlesRoute(e *echo.Echo, ah articles.Handlers, ch comments.Handlers) {
 // 	c.PUT("/edit/:id", ch.UpdateComment)
 // 	c.DELETE("/delete/:id", ch.DeleteComment)
 // }
+
+func JWTConfig() echo.MiddlewareFunc {
+	return echojwt.WithConfig(
+		echojwt.Config{
+			SigningKey:    []byte(configs.ImportPasskey()),
+			SigningMethod: jwt.SigningMethodHS256.Name,
+		},
+	)
+}
