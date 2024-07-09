@@ -1,6 +1,8 @@
 package articles
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/labstack/echo/v4"
+)
 
 type Article struct {
 	ID          uint
@@ -21,9 +23,9 @@ type Handlers interface {
 type Services interface {
 	ShowAllArticles() ([]Article, error)
 	ReadArticle(ID uint) (Article, error)
-	CreateArticle(newArticle Article) error
-	UpdateArticle(updatedArticle Article) error
-	DeleteArticle(ID uint) error
+	CreateArticle(newArticle Article, imgURL string, userID uint) error
+	UpdateArticle(updatedArticle Article, imgURL string, userID uint) error
+	DeleteArticle(ID uint, userID uint) error
 }
 
 type Queries interface {
