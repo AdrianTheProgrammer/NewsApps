@@ -72,7 +72,7 @@ func (ah *ArticlesHand) CreateArticle() echo.HandlerFunc {
 func (ah *ArticlesHand) DeleteArticle() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var dataUser = utils.NewTokenUtil().DecodeToken(c.Get("user").(*jwt.Token))
-		articleID, err := strconv.Atoi(c.Param("ID"))
+		articleID, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			return c.JSON(400, helpers.ResponseFormat(400, "article id Error", nil))
 		}
@@ -91,7 +91,7 @@ func (ah *ArticlesHand) DeleteArticle() echo.HandlerFunc {
 
 func (ah *ArticlesHand) ReadArticle() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		articleID, err := strconv.Atoi(c.Param("ID"))
+		articleID, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			return c.JSON(400, helpers.ResponseFormat(400, "article id Error", nil))
 		}
@@ -111,8 +111,12 @@ func (ah *ArticlesHand) ReadArticle() echo.HandlerFunc {
 func (ah *ArticlesHand) UpdateArticle() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var dataUser = utils.NewTokenUtil().DecodeToken(c.Get("user").(*jwt.Token))
+		articleID, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			return c.JSON(400, helpers.ResponseFormat(400, "article id Error", nil))
+		}
 		var newArticle NewArticlesRequest
-		err := c.Bind(&newArticle)
+		err = c.Bind(&newArticle)
 		if err != nil {
 			return c.JSON(400, helpers.ResponseFormat(400, "article data Error", nil))
 		}
@@ -133,7 +137,7 @@ func (ah *ArticlesHand) UpdateArticle() echo.HandlerFunc {
 				return c.JSON(500, helpers.ResponseFormat(500, "article pic upload error", nil))
 			}
 		}
-		err = ah.srv.UpdateArticle(ToArticleEntity(newArticle), imageURL, dataUser.ID)
+		err = ah.srv.UpdateArticle(ToArticleEntity(newArticle), imageURL, dataUser.ID, uint(articleID))
 		if err != nil {
 			errCode := 500
 			if strings.ContainsAny(err.Error(), "tidak ditemukan") {

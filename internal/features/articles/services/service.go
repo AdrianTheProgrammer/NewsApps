@@ -51,10 +51,10 @@ func (as *articleServices) CreateArticle(newArticle articles.Article, imgURL str
 	}
 	return nil
 }
-func (as *articleServices) UpdateArticle(updatedArticle articles.Article, imgURL string, userID uint) error {
+func (as *articleServices) UpdateArticle(updatedArticle articles.Article, imgURL string, userID uint, articleID uint) error {
 	msg := "terjadi kesalahan pada server"
 
-	result, err := as.qry.ReadArticle(updatedArticle.ID)
+	result, err := as.qry.ReadArticle(articleID)
 	if err != nil {
 		//log.Println("Show All Articles sql error:", err.Error())
 		if err.Error() == gorm.ErrRecordNotFound.Error() {
@@ -62,10 +62,12 @@ func (as *articleServices) UpdateArticle(updatedArticle articles.Article, imgURL
 		}
 		return errors.New(msg)
 	}
+
 	if result.UserID != userID {
 		msg = "data user tidak ditemukan"
 		return errors.New(msg)
 	}
+	updatedArticle.ID = articleID
 	updatedArticle.ImageSource = imgURL
 	err = as.qry.UpdateArticle(updatedArticle)
 	if err != nil {
