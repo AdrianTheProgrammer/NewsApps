@@ -10,7 +10,7 @@ type ArticlesQueries struct {
 	db *gorm.DB
 }
 
-func NewArticlesQueries(connection *gorm.DB) articles.Queries {
+func NewArticlesQueries(connection *gorm.DB) articles.AQueries {
 	return &ArticlesQueries{
 		db: connection,
 	}

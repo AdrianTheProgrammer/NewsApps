@@ -12,10 +12,10 @@ import (
 )
 
 type ArticlesHand struct {
-	srv articles.Services
+	srv articles.AServices
 }
 
-func NewArticlesHand(s articles.Services) articles.Handlers {
+func NewArticlesHand(s articles.AServices) articles.AHandlers {
 	return &ArticlesHand{
 		srv: s,
 	}

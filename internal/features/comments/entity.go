@@ -1,22 +1,36 @@
 package comments
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/labstack/echo/v4"
+)
 
-type Comments struct {
+type Comment struct {
 	ID        uint
 	ArticleID uint
 	UserID    uint
 	Content   string
 }
 
-type Handlers interface {
+type CHandlers interface {
+	ShowAllComments() echo.HandlerFunc
+	ReadComment() echo.HandlerFunc
 	CreateComment() echo.HandlerFunc
 	UpdateComment() echo.HandlerFunc
 	DeleteComment() echo.HandlerFunc
 }
 
-type Services interface {
+type CServices interface {
+	ShowAllComments(articleID uint) ([]Comment, error)
+	ReadComment(ID uint, articleID uint) (Comment, error)
+	CreateComment(newComment Comment, userID uint, articleID uint) error
+	UpdateComment(updatedComment Comment, userID uint, commentID uint) error
+	DeleteComment(ID uint, userID uint) error
 }
 
-type Query interface {
+type CQueries interface {
+	ShowAllComments(articleID uint) ([]Comment, error)
+	ReadComment(ID uint) (Comment, error)
+	CreateComment(newComment Comment) error
+	UpdateComment(updatedComment Comment, commentID uint) error
+	DeleteComment(ID uint) error
 }

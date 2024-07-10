@@ -8,10 +8,10 @@ import (
 )
 
 type articleServices struct {
-	qry articles.Queries
+	qry articles.AQueries
 }
 
-func NewArticlesServices(q articles.Queries) articles.Services {
+func NewArticlesServices(q articles.AQueries) articles.AServices {
 	return &articleServices{
 		qry: q,
 	}

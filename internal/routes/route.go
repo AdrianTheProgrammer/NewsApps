@@ -11,13 +11,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func InitRoute(e *echo.Echo, uh users.UHandlers, ah articles.Handlers, ch comments.Handlers) {
+func InitRoute(e *echo.Echo, uh users.UHandlers, ah articles.AHandlers, ch comments.CHandlers) {
 	e.POST("/login", uh.Login)
 	e.POST("/register", uh.CreateUser)
 	e.GET("/articles", ah.ShowAllArticles())
 	e.GET("/articles/:id", ah.ReadArticle())
-	e.GET("/articles/:id/comment", ah.ReadArticle())
-
+	e.GET("/articles/:id/comments", ch.ShowAllComments())
+	e.GET("/articles/:id/comments/:cid", ch.ReadComment())
 	UsersRoute(e, uh)
 	ArticlesRoute(e, ah, ch)
 	// CommentsRoute(e, ch)
@@ -31,16 +31,16 @@ func UsersRoute(e *echo.Echo, uh users.UHandlers) {
 	u.DELETE("/deactivate", uh.DeleteUser)
 }
 
-func ArticlesRoute(e *echo.Echo, ah articles.Handlers, ch comments.Handlers) {
+func ArticlesRoute(e *echo.Echo, ah articles.AHandlers, ch comments.CHandlers) {
 	a := e.Group("/articles")
 	a.Use(JWTConfig())
 	a.POST("/post", ah.CreateArticle())
 	a.PUT("/:id/edit", ah.UpdateArticle())
 	a.DELETE("/:id/delete", ah.DeleteArticle())
-	a.GET("/:id/comment", ch.CreateComment())
-	a.POST("/:id/comment/post", ch.CreateComment())
-	a.PUT("/:id/comment/:cid/update", ch.UpdateComment())
-	a.DELETE("/:id/comment/:cid/delete", ch.DeleteComment())
+	a.POST("/:id/comments/post", ch.CreateComment())
+	a.PUT("/:id/comments/:cid/edit", ch.UpdateComment())
+	a.DELETE("/:id/comments/:cid/delete", ch.DeleteComment())
+
 }
 
 // func CommentsRoute(e *echo.Echo, ch comments.CHandlers) {

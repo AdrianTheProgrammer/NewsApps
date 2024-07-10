@@ -36,8 +36,8 @@ func InitFactory(e *echo.Echo) {
 	as := a_srv.NewArticlesServices(aq)
 	ah := a_hnd.NewArticlesHand(as)
 
-	cq := c_rep.NewCommentsQry(db)
-	cs := c_srv.NewCommentsSrv(cq)
+	cq := c_rep.NewCommentsQueries(db)
+	cs := c_srv.NewCommentsServices(cq)
 	ch := c_hnd.NewCommentsHand(cs)
 
 	e.Pre(middleware.RemoveTrailingSlash())
@@ -53,7 +53,7 @@ func MigrateDB(db *gorm.DB) {
 	fmt.Scanln(&menu)
 
 	if menu == 1 {
-		err := db.AutoMigrate(&u_rep.Users{}, &c_rep.Comments{}, &a_rep.Article{})
+		err := db.AutoMigrate(&u_rep.Users{}, &c_rep.Comment{}, &a_rep.Article{})
 		if err != nil {
 			fmt.Println(err)
 		}
