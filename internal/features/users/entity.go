@@ -3,12 +3,13 @@ package users
 import "github.com/labstack/echo/v4"
 
 type Users struct {
-	ID       uint
-	Username string
-	Password string
-	Fullname string
-	Email    string
-	Phone    string
+	ID       uint   `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Fullname string `json:"fullname"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
+	Token    string `json:"token"`
 }
 
 type UHandlers interface {
@@ -20,7 +21,17 @@ type UHandlers interface {
 }
 
 type UServices interface {
+	Login(string, string) (Users, error)
+	CreateUser(Users) error
+	ReadUser(uint) (Users, error)
+	UpdateUser(uint, Users) error
+	DeleteUser(uint) error
 }
 
 type UQuery interface {
+	Login(string) (Users, error)
+	CreateUser(Users) error
+	ReadUser(uint) (Users, error)
+	UpdateUser(uint, Users) error
+	DeleteUser(uint) error
 }
