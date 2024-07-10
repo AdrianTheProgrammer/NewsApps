@@ -28,7 +28,9 @@ func (tu *tokenUtil) GenerateToken(LoginData users.Users) (string, error) {
 	claims["email"] = LoginData.Email
 	claims["phone"] = LoginData.Phone
 	claims["iat"] = time.Now().Unix()
-	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
+
+	claims["exp"] = time.Now().Add(time.Minute * 10).Unix()
+
 
 	process := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	result, err := process.SignedString([]byte(configs.ImportPasskey()))
