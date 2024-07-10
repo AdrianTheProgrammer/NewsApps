@@ -1,4 +1,9 @@
 # NewsApps
+**API Documentation**
+```
+https://app.swaggerhub.com/apis/HAFIZDARMAWAN1996/NewsApp/1.0.0
+```
+
 **Import Packages**
 ```
 go get github.com/joho/godotenv
@@ -16,3 +21,4 @@ mockery --all
 go test ./... --coverprofile cover.out
 go tool cover -func cover.out
 ```
+
