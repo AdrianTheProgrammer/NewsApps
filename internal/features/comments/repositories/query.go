@@ -10,7 +10,7 @@ type CommentsQueries struct {
 	db *gorm.DB
 }
 
-func NewCommentsQueries(connection *gorm.DB) comments.Queries {
+func NewCommentsQueries(connection *gorm.DB) comments.CQueries {
 	return &CommentsQueries{
 		db: connection,
 	}

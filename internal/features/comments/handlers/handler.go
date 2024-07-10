@@ -12,10 +12,10 @@ import (
 )
 
 type CommentsHand struct {
-	srv comments.Services
+	srv comments.CServices
 }
 
-func NewCommentsHand(s comments.Services) comments.Handlers {
+func NewCommentsHand(s comments.CServices) comments.CHandlers {
 	return &CommentsHand{
 		srv: s,
 	}
@@ -83,12 +83,16 @@ func (ah *CommentsHand) DeleteComment() echo.HandlerFunc {
 
 func (ah *CommentsHand) ReadComment() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		articleID, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			return c.JSON(400, helpers.ResponseFormat(400, "article id Error", nil))
+		}
 		commentID, err := strconv.Atoi(c.Param("cid"))
 		if err != nil {
 			return c.JSON(400, helpers.ResponseFormat(400, "comment id Error", nil))
 		}
 
-		responseData, err := ah.srv.ReadComment(uint(commentID))
+		responseData, err := ah.srv.ReadComment(uint(commentID), uint(articleID))
 		if err != nil {
 			errCode := 500
 			if strings.ContainsAny(err.Error(), "tidak ditemukan") {

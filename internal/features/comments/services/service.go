@@ -8,10 +8,10 @@ import (
 )
 
 type commentServices struct {
-	qry comments.Queries
+	qry comments.CQueries
 }
 
-func NewCommentsServices(q comments.Queries) comments.Services {
+func NewCommentsServices(q comments.CQueries) comments.CServices {
 	return &commentServices{
 		qry: q,
 	}
@@ -29,7 +29,7 @@ func (cs *commentServices) ShowAllComments(articleID uint) ([]comments.Comment, 
 	}
 	return result, nil
 }
-func (cs *commentServices) ReadComment(ID uint) (comments.Comment, error) {
+func (cs *commentServices) ReadComment(ID uint, articleID uint) (comments.Comment, error) {
 	result, err := cs.qry.ReadComment(ID)
 	msg := "terjadi kesalahan pada server"
 	if err != nil {
@@ -37,6 +37,10 @@ func (cs *commentServices) ReadComment(ID uint) (comments.Comment, error) {
 		if err.Error() == gorm.ErrRecordNotFound.Error() {
 			msg = "data tidak ditemukan"
 		}
+		return comments.Comment{}, errors.New(msg)
+	}
+	if result.ArticleID != articleID {
+		msg = "data tidak ditemukan"
 		return comments.Comment{}, errors.New(msg)
 	}
 	return result, nil

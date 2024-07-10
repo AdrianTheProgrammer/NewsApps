@@ -12,7 +12,7 @@ type Article struct {
 	ImageSource string
 }
 
-type Handlers interface {
+type AHandlers interface {
 	ShowAllArticles() echo.HandlerFunc
 	ReadArticle() echo.HandlerFunc
 	CreateArticle() echo.HandlerFunc
@@ -20,7 +20,7 @@ type Handlers interface {
 	DeleteArticle() echo.HandlerFunc
 }
 
-type Services interface {
+type AServices interface {
 	ShowAllArticles() ([]Article, error)
 	ReadArticle(ID uint) (Article, error)
 	CreateArticle(newArticle Article, imgURL string, userID uint) error
@@ -28,7 +28,7 @@ type Services interface {
 	DeleteArticle(ID uint, userID uint) error
 }
 
-type Queries interface {
+type AQueries interface {
 	ShowAllArticles() ([]Article, error)
 	ReadArticle(ID uint) (Article, error)
 	CreateArticle(newArticle Article) error

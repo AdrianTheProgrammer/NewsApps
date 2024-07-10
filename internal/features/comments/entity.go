@@ -11,7 +11,7 @@ type Comment struct {
 	Content   string
 }
 
-type Handlers interface {
+type CHandlers interface {
 	ShowAllComments() echo.HandlerFunc
 	ReadComment() echo.HandlerFunc
 	CreateComment() echo.HandlerFunc
@@ -19,15 +19,15 @@ type Handlers interface {
 	DeleteComment() echo.HandlerFunc
 }
 
-type Services interface {
+type CServices interface {
 	ShowAllComments(articleID uint) ([]Comment, error)
-	ReadComment(ID uint) (Comment, error)
+	ReadComment(ID uint, articleID uint) (Comment, error)
 	CreateComment(newComment Comment, userID uint, articleID uint) error
 	UpdateComment(updatedComment Comment, userID uint, commentID uint) error
 	DeleteComment(ID uint, userID uint) error
 }
 
-type Queries interface {
+type CQueries interface {
 	ShowAllComments(articleID uint) ([]Comment, error)
 	ReadComment(ID uint) (Comment, error)
 	CreateComment(newComment Comment) error

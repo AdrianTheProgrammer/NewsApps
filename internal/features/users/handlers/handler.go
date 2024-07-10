@@ -57,7 +57,7 @@ func (uh *UsersHand) CreateUser(c echo.Context) error {
 
 func (uh *UsersHand) ReadUser(c echo.Context) error {
 	// Route: /users/settings
-	LoginData := uh.tu.DecodeToken(c.Get("user").(*jwt.Token))
+	LoginData := utils.NewTokenUtil().DecodeToken(c.Get("user").(*jwt.Token))
 	result, err := uh.srv.ReadUser(LoginData.ID)
 	if err != nil {
 		return c.JSON(500, helpers.ResponseFormat(500, "Server Error!", nil))

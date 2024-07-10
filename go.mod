@@ -4,7 +4,6 @@ go 1.22.3
 
 require (
 	github.com/cloudinary/cloudinary-go v1.7.0
-	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo-jwt v0.0.0-20221127215225-c84d41a71003
@@ -16,6 +15,7 @@ require (
 
 require (
 	github.com/creasty/defaults v1.5.1 // indirect
+	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/gorilla/schema v1.2.0 // indirect

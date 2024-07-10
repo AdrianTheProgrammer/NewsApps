@@ -6,12 +6,12 @@ import (
 	comments "newsapps/internal/features/comments"
 	users "newsapps/internal/features/users"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 	echojwt "github.com/labstack/echo-jwt"
 	"github.com/labstack/echo/v4"
 )
 
-func InitRoute(e *echo.Echo, uh users.UHandlers, ah articles.Handlers, ch comments.Handlers) {
+func InitRoute(e *echo.Echo, uh users.UHandlers, ah articles.AHandlers, ch comments.CHandlers) {
 	e.POST("/login", uh.Login)
 	e.POST("/register", uh.CreateUser)
 	e.GET("/articles", ah.ShowAllArticles())
@@ -31,7 +31,7 @@ func UsersRoute(e *echo.Echo, uh users.UHandlers) {
 	u.DELETE("/deactivate", uh.DeleteUser)
 }
 
-func ArticlesRoute(e *echo.Echo, ah articles.Handlers, ch comments.Handlers) {
+func ArticlesRoute(e *echo.Echo, ah articles.AHandlers, ch comments.CHandlers) {
 	a := e.Group("/articles")
 	a.Use(JWTConfig())
 	a.POST("/post", ah.CreateArticle())
@@ -40,6 +40,7 @@ func ArticlesRoute(e *echo.Echo, ah articles.Handlers, ch comments.Handlers) {
 	a.POST("/:id/comments/post", ch.CreateComment())
 	a.PUT("/:id/comments/:cid/edit", ch.UpdateComment())
 	a.DELETE("/:id/comments/:cid/delete", ch.DeleteComment())
+
 }
 
 // func CommentsRoute(e *echo.Echo, ch comments.CHandlers) {
