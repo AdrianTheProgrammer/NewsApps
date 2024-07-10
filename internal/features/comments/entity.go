@@ -31,6 +31,6 @@ type CQueries interface {
 	ShowAllComments(articleID uint) ([]Comment, error)
 	ReadComment(ID uint) (Comment, error)
 	CreateComment(newComment Comment) error
-	UpdateComment(updatedComment Comment) error
+	UpdateComment(updatedComment Comment, commentID uint) error
 	DeleteComment(ID uint) error
 }

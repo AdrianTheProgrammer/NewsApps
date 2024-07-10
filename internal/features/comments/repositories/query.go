@@ -44,9 +44,10 @@ func (cq *CommentsQueries) CreateComment(newComment comments.Comment) error {
 	}
 	return nil
 }
-func (cq *CommentsQueries) UpdateComment(updatedComment comments.Comment) error {
+func (cq *CommentsQueries) UpdateComment(updatedComment comments.Comment, commentID uint) error {
 	cnv := toCommentData(updatedComment)
-	err := cq.db.Save(&cnv).Error
+	cnv.ID = commentID
+	err := cq.db.Model(&cnv).Update("content", cnv.Content).Error
 	if err != nil {
 		return err
 	}

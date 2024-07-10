@@ -71,8 +71,8 @@ func (cs *commentServices) UpdateComment(updatedComment comments.Comment, userID
 		msg = "data user tidak sesuai"
 		return errors.New(msg)
 	}
-	updatedComment.ID = commentID
-	err = cs.qry.UpdateComment(updatedComment)
+
+	err = cs.qry.UpdateComment(updatedComment, commentID)
 	if err != nil {
 		return errors.New(msg)
 	}

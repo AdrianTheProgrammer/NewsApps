@@ -52,11 +52,11 @@ func (ah *CommentsHand) CreateComment() echo.HandlerFunc {
 			return c.JSON(500, helpers.ResponseFormat(500, "comment data Error", nil))
 		}
 
-		err = ah.srv.CreateComment(ToCommentEntity(newComment), uint(articleID), dataUser.ID)
+		err = ah.srv.CreateComment(ToCommentEntity(newComment), dataUser.ID, uint(articleID))
 		if err != nil {
 			return c.JSON(500, helpers.ResponseFormat(500, "comment post error", nil))
 		}
-		return nil
+		return c.JSON(200, helpers.ResponseFormat(200, "data comments berhasil ditambah", nil))
 	}
 
 }
@@ -77,7 +77,7 @@ func (ah *CommentsHand) DeleteComment() echo.HandlerFunc {
 			}
 			return c.JSON(errCode, helpers.ResponseFormat(errCode, err.Error(), nil))
 		}
-		return nil
+		return c.JSON(200, helpers.ResponseFormat(200, "data comments berhasil dihapus", nil))
 	}
 }
 
@@ -125,6 +125,6 @@ func (ah *CommentsHand) UpdateComment() echo.HandlerFunc {
 			}
 			return c.JSON(errCode, helpers.ResponseFormat(errCode, err.Error(), nil))
 		}
-		return nil
+		return c.JSON(200, helpers.ResponseFormat(200, "data comments berhasil diupdate", nil))
 	}
 }
