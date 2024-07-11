@@ -13,7 +13,7 @@ Fitur :
 
 Go version: `Go 1.22.3`
 
-**[API Documentation](https://app.swaggerhub.com/apis/HAFIZDARMAWAN1996/NewsApp/1.0.0)**
+**[API Documentation](https://app.swaggerhub.com/apis-docs/HAFIZDARMAWAN1996/NewsApp/1.0.0)**
 
 **Import Packages**
 ```
