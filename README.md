@@ -4,11 +4,14 @@ NewsApps adalah aplikasi sosial media sederhana yang bisa digunakan untuk mempos
 
 Fitur :
 - Melihat semua hal yang telah diposting berbagai macam pengguna di halaman utama.
-- Pengguna yang telah mendaftar bisa memposting dan memberi komentar kepada postingan orang lain.
+- Pengguna yang telah mendaftar/login bisa memposting cerita mereka sendiri serta menyisipkan sebuah gambar.
+- Pengguna yang telah mendaftar/login bisa memberikan komentar kepada postingan orang lain.
+- Pengguna bisa mengedit dan menghapus postingan maupun komentar yang telah mereka post.
+- Pengguna juga bisa mengatur kembali informasi akun yang telah didaftarkan.
 
 Go version: `Go 1.22.3`
 
-**[API Documentation]** (https://app.swaggerhub.com/apis/HAFIZDARMAWAN1996/NewsApp/1.0.0)
+[API Documentation](https://app.swaggerhub.com/apis/HAFIZDARMAWAN1996/NewsApp/1.0.0)
 
 **Import Packages**
 ```
