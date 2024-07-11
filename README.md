@@ -9,12 +9,11 @@ Fitur :
 - Pengguna bisa mengedit dan menghapus postingan maupun komentar yang telah mereka post.
 - Pengguna juga bisa mengatur kembali informasi akun yang telah didaftarkan.
 
----
 ## Informasi Teknis
 
 Go version: `Go 1.22.3`
 
-[API Documentation](https://app.swaggerhub.com/apis/HAFIZDARMAWAN1996/NewsApp/1.0.0)
+**[API Documentation](https://app.swaggerhub.com/apis/HAFIZDARMAWAN1996/NewsApp/1.0.0)**
 
 **Import Packages**
 ```
