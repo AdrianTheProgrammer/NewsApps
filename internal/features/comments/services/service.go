@@ -45,9 +45,8 @@ func (cs *commentServices) ReadComment(ID uint, articleID uint) (comments.Commen
 	}
 	return result, nil
 }
-func (cs *commentServices) CreateComment(newComment comments.Comment, userID uint, articleID uint) error {
+func (cs *commentServices) CreateComment(newComment comments.Comment, userID uint) error {
 	msg := "terjadi kesalahan pada server"
-	newComment.ArticleID = articleID
 	newComment.UserID = userID
 	err := cs.qry.CreateComment(newComment)
 	if err != nil {

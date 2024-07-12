@@ -27,6 +27,13 @@ func (as *articleServices) ShowAllArticles() ([]articles.Article, error) {
 		}
 		return []articles.Article{}, errors.New(msg)
 	}
+
+	for x, v := range result {
+		result[x].Comments, err = as.qry.ShowAllComments(v.ID)
+		if err != nil {
+			msg = "data comment article tidak ditemukan"
+		}
+	}
 	return result, nil
 }
 func (as *articleServices) ReadArticle(ID uint) (articles.Article, error) {
@@ -38,6 +45,10 @@ func (as *articleServices) ReadArticle(ID uint) (articles.Article, error) {
 			msg = "data tidak ditemukan"
 		}
 		return articles.Article{}, errors.New(msg)
+	}
+	result.Comments, err = as.qry.ShowAllComments(result.ID)
+	if err != nil {
+		msg = "data comment article tidak ditemukan"
 	}
 	return result, nil
 }
@@ -69,7 +80,7 @@ func (as *articleServices) UpdateArticle(updatedArticle articles.Article, imgURL
 	}
 	updatedArticle.ID = articleID
 	updatedArticle.ImageSource = imgURL
-	err = as.qry.UpdateArticle(updatedArticle)
+	err = as.qry.UpdateArticle(updatedArticle, articleID)
 	if err != nil {
 		return errors.New(msg)
 	}

@@ -16,11 +16,9 @@ func InitRoute(e *echo.Echo, uh users.UHandlers, ah articles.AHandlers, ch comme
 	e.POST("/register", uh.CreateUser)
 	e.GET("/articles", ah.ShowAllArticles())
 	e.GET("/articles/:id", ah.ReadArticle())
-	e.GET("/articles/:id/comments", ch.ShowAllComments())
-	e.GET("/articles/:id/comments/:cid", ch.ReadComment())
 	UsersRoute(e, uh)
-	ArticlesRoute(e, ah, ch)
-	// CommentsRoute(e, ch)
+	ArticlesRoute(e, ah)
+	CommentsRoute(e, ch)
 }
 
 func UsersRoute(e *echo.Echo, uh users.UHandlers) {
@@ -31,15 +29,21 @@ func UsersRoute(e *echo.Echo, uh users.UHandlers) {
 	u.DELETE("/deactivate", uh.DeleteUser)
 }
 
-func ArticlesRoute(e *echo.Echo, ah articles.AHandlers, ch comments.CHandlers) {
+func ArticlesRoute(e *echo.Echo, ah articles.AHandlers) {
 	a := e.Group("/articles")
 	a.Use(JWTConfig())
 	a.POST("/post", ah.CreateArticle())
 	a.PUT("/:id/edit", ah.UpdateArticle())
 	a.DELETE("/:id/delete", ah.DeleteArticle())
-	a.POST("/:id/comments/post", ch.CreateComment())
-	a.PUT("/:id/comments/:cid/edit", ch.UpdateComment())
-	a.DELETE("/:id/comments/:cid/delete", ch.DeleteComment())
+
+}
+
+func CommentsRoute(e *echo.Echo, ch comments.CHandlers) {
+	c := e.Group("/comments")
+	c.Use(JWTConfig())
+	c.POST("/post", ch.CreateComment())
+	c.PUT("/:cid/edit", ch.UpdateComment())
+	c.DELETE("/:cid/delete", ch.DeleteComment())
 
 }
 

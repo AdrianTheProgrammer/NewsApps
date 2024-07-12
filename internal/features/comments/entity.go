@@ -22,7 +22,7 @@ type CHandlers interface {
 type CServices interface {
 	ShowAllComments(articleID uint) ([]Comment, error)
 	ReadComment(ID uint, articleID uint) (Comment, error)
-	CreateComment(newComment Comment, userID uint, articleID uint) error
+	CreateComment(newComment Comment, userID uint) error
 	UpdateComment(updatedComment Comment, userID uint, commentID uint) error
 	DeleteComment(ID uint, userID uint) error
 }

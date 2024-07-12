@@ -1,6 +1,8 @@
 package articles
 
 import (
+	c_enty "newsapps/internal/features/comments"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -10,6 +12,7 @@ type Article struct {
 	Title       string
 	Content     string
 	ImageSource string
+	Comments    []c_enty.Comment
 }
 
 type AHandlers interface {
@@ -32,6 +35,7 @@ type AQueries interface {
 	ShowAllArticles() ([]Article, error)
 	ReadArticle(ID uint) (Article, error)
 	CreateArticle(newArticle Article) error
-	UpdateArticle(updatedArticle Article) error
+	UpdateArticle(updatedArticle Article, articleID uint) error
 	DeleteArticle(ID uint) error
+	ShowAllComments(articleID uint) ([]c_enty.Comment, error)
 }
