@@ -42,17 +42,14 @@ func (ah *CommentsHand) ShowAllComments() echo.HandlerFunc {
 func (ah *CommentsHand) CreateComment() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var dataUser = utils.NewTokenUtil().DecodeToken(c.Get("user").(*jwt.Token))
-		articleID, err := strconv.Atoi(c.Param("id"))
-		if err != nil {
-			return c.JSON(400, helpers.ResponseFormat(400, "article id Error", nil))
-		}
+
 		var newComment NewCommentsRequest
-		err = c.Bind(&newComment)
+		err := c.Bind(&newComment)
 		if err != nil {
 			return c.JSON(500, helpers.ResponseFormat(500, "comment data Error", nil))
 		}
 
-		err = ah.srv.CreateComment(ToCommentEntity(newComment), dataUser.ID, uint(articleID))
+		err = ah.srv.CreateComment(ToCommentEntity(newComment), dataUser.ID)
 		if err != nil {
 			return c.JSON(500, helpers.ResponseFormat(500, "comment post error", nil))
 		}

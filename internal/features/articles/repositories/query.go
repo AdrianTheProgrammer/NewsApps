@@ -2,6 +2,8 @@ package repositories
 
 import (
 	"newsapps/internal/features/articles"
+	c_enty "newsapps/internal/features/comments"
+	c_repo "newsapps/internal/features/comments/repositories"
 
 	"gorm.io/gorm"
 )
@@ -44,9 +46,10 @@ func (aq *ArticlesQueries) CreateArticle(newArticle articles.Article) error {
 	}
 	return nil
 }
-func (aq *ArticlesQueries) UpdateArticle(updatedArticle articles.Article) error {
+func (aq *ArticlesQueries) UpdateArticle(updatedArticle articles.Article, articleID uint) error {
 	cnv := toArticleData(updatedArticle)
-	err := aq.db.Save(&cnv).Error
+	cnv.ID = articleID
+	err := aq.db.Model(&cnv).Updates(Article{Content: cnv.Content, Title: cnv.Title, ImageSource: cnv.ImageSource}).Error
 	if err != nil {
 		return err
 	}
@@ -59,4 +62,17 @@ func (aq *ArticlesQueries) DeleteArticle(ID uint) error {
 		return err
 	}
 	return nil
+}
+
+func (aq *ArticlesQueries) ShowAllComments(articleID uint) ([]c_enty.Comment, error) {
+	var result []c_repo.Comment
+	var resultConvert []c_enty.Comment
+	err := aq.db.Where("article_id = ?", articleID).Find(&result).Error
+	if err != nil {
+		return []c_enty.Comment{}, err
+	}
+	for _, v := range result {
+		resultConvert = append(resultConvert, toCommentEntity(v))
+	}
+	return resultConvert, nil
 }

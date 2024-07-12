@@ -64,7 +64,7 @@ func (ah *ArticlesHand) CreateArticle() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(500, helpers.ResponseFormat(500, "article post error", nil))
 		}
-		return nil
+		return c.JSON(201, helpers.ResponseFormat(201, "article created Successfully!", nil))
 	}
 
 }
@@ -85,7 +85,7 @@ func (ah *ArticlesHand) DeleteArticle() echo.HandlerFunc {
 			}
 			return c.JSON(errCode, helpers.ResponseFormat(errCode, err.Error(), nil))
 		}
-		return nil
+		return c.JSON(201, helpers.ResponseFormat(201, "article deleted Successfully!", nil))
 	}
 }
 
@@ -145,6 +145,6 @@ func (ah *ArticlesHand) UpdateArticle() echo.HandlerFunc {
 			}
 			return c.JSON(errCode, helpers.ResponseFormat(errCode, err.Error(), nil))
 		}
-		return nil
+		return c.JSON(201, helpers.ResponseFormat(201, "article updated Successfully!", nil))
 	}
 }
